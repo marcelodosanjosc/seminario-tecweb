@@ -19,8 +19,8 @@ public class ClienteController {
 	@Autowired
 	ClienteRepository clienteRepository;
 	
-	@GetMapping("/signup")
-	public String showCarForm(Cliente cliente) {
+	@GetMapping("/signup-cliente")
+	public String showCliForm(Cliente cliente) {
 		return "add-cliente";
 	}
 	
@@ -30,14 +30,14 @@ public class ClienteController {
 			return "add-cliente";
 		}
 		clienteRepository.save(cliente);
-		return "redirect:/index";
+		return "redirect:/index-cliente";
 	}
-	@GetMapping("/index")
+	@GetMapping("/index-cliente")
 	public String showCliList(Model model) {
 		model.addAttribute("clientes", clienteRepository.findAll());
-		return "/index";
+		return "/index-cliente";
 	}
-	
+	@GetMapping("/edit-cliente/{id}")
 	public String showCliUpdateForm(@PathVariable("id") Long id, Model model) {
 		Cliente cliente = clienteRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Cliente do Id inválido:" + id));
@@ -46,7 +46,7 @@ public class ClienteController {
 		return "update-cliente";
 	}
 	
-	@PostMapping("/update/{id}")
+	@PostMapping("/update-cliente/{id}")
     public String updateCliente(@PathVariable("id") long id, @Valid Cliente cliente, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -55,14 +55,14 @@ public class ClienteController {
         }
             
         clienteRepository.save(cliente);
-        return "redirect:/index";
+        return "redirect:/index-cliente";
     }
 	
-	@GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id, Model model) {
+	@GetMapping("/delete-cliente/{id}")
+    public String deleteCliente(@PathVariable("id") long id, Model model) {
         Cliente cliente = clienteRepository.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("Cliente do Id inválido:" + id));
         clienteRepository.delete(cliente);
-        return "redirect:/index";
+        return "redirect:/index-cliente";
     }
 }

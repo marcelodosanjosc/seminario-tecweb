@@ -36,7 +36,12 @@ public class CarroController {
 		model.addAttribute("carros", carroRepository.findAll());
 		return "/index";
 	}
-	
+	@GetMapping("/home")
+	public String showHome() {
+		
+		return "/home";
+	}
+	@GetMapping("/edit/{id}")
 	public String showCarUpdateForm(@PathVariable("id") Long id, Model model) {
 		Carro carro = carroRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Carro do Id inválido:" + id));
